@@ -1,0 +1,31 @@
+// @flow
+
+import React, { Component } from 'react';
+import {
+  ScrollView,
+  StyleSheet,
+  View,
+} from 'react-native';
+import Event from './Event';
+
+export default function Events(props) {
+  const { events, navigation } = props;
+  return (
+    <View style={styles.container}>
+      <ScrollView>
+        {events && events.map((event, index) =>
+          <Event event={event} key={index}
+            navigation={navigation}
+          />)}
+      </ScrollView>
+    </View>
+  );
+
+
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});
