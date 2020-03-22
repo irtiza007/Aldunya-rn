@@ -1,3 +1,4 @@
+import { Alert } from "react-native"
 
 export function setAuthInfo(info = {}) {
     return {
@@ -16,5 +17,12 @@ export function updatePhoneNumber(info) {
         type: 'SET_PHONE_NUMBER',
         payload: info
 
+    }
+}
+
+export function updateBlindColor(info) {
+    return {
+        type: 'CHANGE_BLIND_MODE',
+        payload: info
     }
 }

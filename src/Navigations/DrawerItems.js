@@ -1,12 +1,18 @@
-import React from 'react'
-import { View, Text, SafeAreaView, StyleSheet, Image, Switch, TouchableOpacity } from 'react-native'
+import React, { useState } from 'react'
+import { View, Text, SafeAreaView, StyleSheet, Image, Switch, TouchableOpacity, Alert } from 'react-native'
 import Icon from 'react-native-vector-icons/Feather';
 import IconAnt from 'react-native-vector-icons/AntDesign';
+import { updateBlindColor, resetAuthInfo } from '../Action/Auth';
+import { connect } from 'react-redux';
 
+const DrawerItems = ({ Navigation, user, updateBlindColor, resetAuthInfo }) => {
+    console.log(user)
+    // const [blindMode, setBlindMode] = useState(user.blindMode);
+    const setBlindColor = (value) => {
+        // setBlindMode(value);
+        value ? updateBlindColor({ color: '#004368', blindMode: value }) : updateBlindColor({ color: 'black', blindMode: value });
 
-const DrawerItems = ({ Navigation }) => {
-
-
+    }
     return (
         <SafeAreaView>
             <View style={styles.container}>
@@ -18,54 +24,78 @@ const DrawerItems = ({ Navigation }) => {
                             <Image style={styles.image} source={{ uri: 'https://pbs.twimg.com/profile_images/914555270235291648/o_oK5POE_400x400.jpg' }} />
                         </View>
                         <View style={styles.textContainer}>
-                            <Text style={[styles.text, styles.title]}>Sam Williams</Text>
+                            <Text style={[{ color: user.color }, styles.title]}>Sam Williams</Text>
                         </View>
                     </View>
                 </TouchableOpacity>
 
-                <View style={[styles.rowItems]}>
+                <View style={[styles.rowItems, { borderBottomColor: user.color }]}>
                     <View style={styles.textContainer}>
-                        <Text style={[styles.text, styles.itemsTitle]}>Color Blind View</Text>
+                        <Text style={[{ color: user.color }, styles.itemsTitle]}>Color Blind View</Text>
                     </View>
                     <View>
                         <Switch
-                            thumbColor="#004368"
-                            trackColor="#004368"
+                            thumbColor={user.color}
+                            trackColor={user.color}
+                            value={user.blindMode}
+                            onValueChange={setBlindColor}
                         />
                     </View>
                 </View>
                 <TouchableOpacity onPress={() => Navigation.navigate('BusyPeriods')}>
-                    <View style={[styles.rowItems]}>
+                    <View style={[styles.rowItems, { borderBottomColor: user.color }]}>
                         <View style={styles.textContainer}>
-                            <Text style={[styles.text, styles.itemsTitle]}>Busy Periods</Text>
+                            <Text style={[{ color: user.color }, styles.itemsTitle]}>Busy Periods</Text>
                         </View>
                     </View>
                 </TouchableOpacity>
                 <View style={styles.zoom}>
                     <View>
-                        <Text style={[styles.text, styles.itemsTitle]}>Zoom</Text>
+                        <Text style={[{ color: user.color }, styles.itemsTitle]}>Zoom</Text>
                     </View>
-                    <View style={styles.zoomRow}>
-                        <Icon size={28} name="minus" color="#004368" />
+                    <View style={[{ borderBottomColor: user.color, borderBottomColor: user.color }, styles.zoomRow]}>
+                        <Icon size={28} name="minus" color={user.color} />
                         <View style={styles.textContainer}>
-                            <Text style={[styles.text, styles.itemsTitle]}>90%</Text>
+                            <Text style={[{ color: user.color }, styles.itemsTitle]}>90%</Text>
                         </View>
-                        <Icon size={28} name="zoom-in" color="#004368" />
+                        <Icon size={28} name="zoom-in" color={user.color} />
                     </View>
                 </View>
-                <View style={[styles.row, styles.marginTop]}>
+                <TouchableOpacity style={[styles.row, styles.marginTop]} onPress={() => {
+                    resetAuthInfo()
+                    Navigation.navigate('Login');
+
+                }}>
                     <View style={styles.imageContainer}>
-                        <IconAnt size={28} name="logout" color="#004368" />
+                        <IconAnt size={28} name="logout" color={user.color} />
                     </View>
                     <View style={styles.textContainer}>
-                        <Text style={[styles.text, styles.title]}>Logout</Text>
+                        <Text style={[{ color: user.color }, styles.title]}>Logout</Text>
                     </View>
 
-                </View>
+                </TouchableOpacity>
             </View>
         </SafeAreaView>
     )
 }
+
+
+const mapStateToProps = state => {
+    return {
+        user: state.rootReducer.Auth,
+    };
+};
+
+function mapDispatchToProps(dispatch) {
+    return {
+        // setAuthData: data => dispatch(setAuthInfo(data)),
+        updateBlindColor: data => dispatch(updateBlindColor(data)),
+        resetAuthInfo: () => dispatch(resetAuthInfo())
+
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(DrawerItems);
 
 
 const styles = StyleSheet.create({
@@ -88,7 +118,6 @@ const styles = StyleSheet.create({
         marginBottom: 30,
         paddingBottom: 10,
         justifyContent: 'space-between',
-        borderBottomColor: '#004368',
         borderBottomWidth: 2,
     },
     imageContainer: {
@@ -131,11 +160,10 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         marginBottom: 30,
         paddingBottom: 10,
-        borderBottomColor: '#004368',
+        // borderBottomColor: '#004368',
         borderBottomWidth: 2,
 
     }
 
 });
 
-export default DrawerItems

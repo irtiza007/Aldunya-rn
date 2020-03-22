@@ -1,21 +1,31 @@
+import { Alert } from "react-native";
 
 const INITIAL_STATE = {
-    username: '',
-    userUrl: '',
-    location: {},
-    country: {},
-    login: false,
-    phoneNumber: null
+    name: '',
+    lastName: '',
+    userId: null,
+    contactMethod: '',
+    email: '',
+    phoneNumber: null,
+    weight: '',
+    imageUrl: '',
+    color: '#004368',
+    blindMode: true,
+    login: false
 };
 
 export default function authReducer(state = INITIAL_STATE, action) {
     switch (action.type) {
         case 'SET_AUTH_INFO':
             return { ...state, ...action.payload };
-        case 'SET_PHONE_NUMBER':
-            return { ...state, phoneNumber: action.payload };
+
         case 'RE_SET_AUTH_INFO':
             return INITIAL_STATE;
+        case 'CHANGE_BLIND_MODE':
+            return {
+                ...state, color: action.payload.color,
+                blindMode: action.payload.blindMode
+            };
         default:
             return state;
     }
