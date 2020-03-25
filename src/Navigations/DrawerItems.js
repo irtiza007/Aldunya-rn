@@ -10,8 +10,9 @@ const DrawerItems = ({ Navigation, user, updateBlindColor, resetAuthInfo }) => {
     // const [blindMode, setBlindMode] = useState(user.blindMode);
     const setBlindColor = (value) => {
         // setBlindMode(value);
-        value ? updateBlindColor({ color: '#004368', blindMode: value }) : updateBlindColor({ color: 'black', blindMode: value });
-
+        value ? updateBlindColor({ color: '#004368', blindMode: value }) : updateBlindColor({ color: '#5f8cda', blindMode: value });
+        // console.log(Navigation)
+        Navigation.closeDrawer();
     }
     return (
         <SafeAreaView>
@@ -21,10 +22,13 @@ const DrawerItems = ({ Navigation, user, updateBlindColor, resetAuthInfo }) => {
                 }}>
                     <View style={[styles.row, styles.marginTop]}>
                         <View style={styles.imageContainer}>
-                            <Image style={styles.image} source={{ uri: 'https://pbs.twimg.com/profile_images/914555270235291648/o_oK5POE_400x400.jpg' }} />
+                            <Image style={styles.image} source={{ uri: user.imageUrl }} />
                         </View>
                         <View style={styles.textContainer}>
-                            <Text style={[{ color: user.color }, styles.title]}>Sam Williams</Text>
+                            <Text style={[{ color: user.color, width: '70%' }, styles.title]} textBreakStrategy="balanced"
+                                numberOfLines={1}
+                                ellipsizeMode="tail"
+                            >{user.name}</Text>
                         </View>
                     </View>
                 </TouchableOpacity>

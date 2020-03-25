@@ -18,4 +18,6 @@ const Bottom = ({ navigation }) => {
     )
 }
 
+
+
 export default Bottom

@@ -1,114 +1,117 @@
 import React, { useState } from 'react'
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native';
 import { Form, Item, Picker } from 'native-base';
 import Icon from 'react-native-vector-icons/Ionicons'
+// import { ScrollView } from 'react-native-gesture-handler';
 
-const Profile = () => {
+const Profile = ({ user }) => {
     const [preferred, setPreferred] = useState('')
     return (
-        <View style={styles.container}>
-            <View style={styles.imageContainer}>
-                <Image style={styles.image} source={{ uri: 'https://pbs.twimg.com/profile_images/914555270235291648/o_oK5POE_400x400.jpg' }} />
-            </View>
-            <View style={styles.videoDescription}>
-                <View style={styles.row}>
-                    <View style={styles.item}>
-                        <Text style={styles.rowText}>
-                            Name
-                                </Text>
-                    </View>
-                    <View style={styles.item2}>
-                        <Text style={styles.rowText2}>
-                            Sam
-                     </Text>
-                    </View>
+        <ScrollView>
+            <View style={styles.container}>
+                <View style={styles.imageContainer}>
+                    <Image style={styles.image} source={{ uri: user.imageUrl }} />
                 </View>
-                <View style={styles.row}>
-                    <View style={styles.item}>
-                        <Text style={styles.rowText}>
-                            Last Name
+                <View style={styles.videoDescription}>
+                    <View style={styles.row}>
+                        <View style={styles.item}>
+                            <Text style={styles.rowText}>
+                                Name
                                 </Text>
+                        </View>
+                        <View style={styles.item2}>
+                            <Text style={styles.rowText2}>
+                                {user.name}
+                            </Text>
+                        </View>
                     </View>
-                    <View style={styles.item2}>
-                        <Text style={styles.rowText2}>
-                            Dar
-                     </Text>
-                    </View>
-                </View>
-                <View style={styles.row}>
-                    <View style={styles.item}>
-                        <Text style={styles.rowText}>
-                            Age
+                    <View style={styles.row}>
+                        <View style={styles.item}>
+                            <Text style={styles.rowText}>
+                                Last Name
                                 </Text>
+                        </View>
+                        <View style={styles.item2}>
+                            <Text style={styles.rowText2}>
+                                {user.lastname}
+                            </Text>
+                        </View>
                     </View>
-                    <View style={styles.item2}>
-                        <Text style={styles.rowText2}>
-                            18 years
-                     </Text>
+                    <View style={styles.row}>
+                        <View style={styles.item}>
+                            <Text style={styles.rowText}>
+                                Age
+                                </Text>
+                        </View>
+                        <View style={styles.item2}>
+                            <Text style={styles.rowText2}>
+                                {user.age}
+                            </Text>
+                        </View>
                     </View>
-                </View>
 
-                <Text style={styles.preferredText}>
-                    Preferred contact number
+                    <Text style={styles.preferredText}>
+                        Preferred contact number
                                 </Text>
-                <View style={styles.picker}>
+                    <View style={styles.picker}>
 
 
-                    <Item picker>
-                        <Picker
-                            mode="dialog"
-                            iosIcon={<Icon name="ios-arrow-down" />}
-                            placeholder="Select your SIM"
-                            placeholderStyle={{ color: "#bfc6ea" }}
-                            placeholderIconColor="#007aff"
-                            selectedValue={preferred}
-                            onValueChange={(value) => setPreferred(value)}
-                        >
-                            <Picker.Item label="Whatsapp" value="key0" />
-                            <Picker.Item label="Number" value="key1" />
-                        </Picker>
-                    </Item>
-                </View>
-                <View style={styles.row}>
-                    <View style={styles.item}>
-                        <Text style={styles.rowText}>
-                            Height
+                        <Item picker>
+                            <Picker
+                                mode="dialog"
+                                iosIcon={<Icon name="ios-arrow-down" />}
+                                placeholder="Select your SIM"
+                                placeholderStyle={{ color: "#bfc6ea" }}
+                                placeholderIconColor="#007aff"
+                                selectedValue={preferred}
+                                onValueChange={(value) => setPreferred(value)}
+                            >
+                                <Picker.Item label="Whatsapp" value="key0" />
+                                <Picker.Item label="Number" value="key1" />
+                            </Picker>
+                        </Item>
+                    </View>
+                    <View style={styles.row}>
+                        <View style={styles.item}>
+                            <Text style={styles.rowText}>
+                                Height
                                 </Text>
+                        </View>
+                        <View style={styles.item2}>
+                            <Text style={styles.rowText2}>
+                                {user.height}
+                            </Text>
+                        </View>
                     </View>
-                    <View style={styles.item2}>
-                        <Text style={styles.rowText2}>
-                            5'11
-                     </Text>
-                    </View>
-                </View>
-                <View style={styles.row}>
-                    <View style={styles.item}>
-                        <Text style={styles.rowText}>
-                            Weight
+                    <View style={styles.row}>
+                        <View style={styles.item}>
+                            <Text style={styles.rowText}>
+                                Weight
                                 </Text>
-                    </View>
-                    <View style={styles.item2}>
-                        <Text style={styles.rowText2}>
-                            182 lbs
+                        </View>
+                        <View style={styles.item2}>
+                            <Text style={styles.rowText2}>
+                                {user.weight} lbs
                      </Text>
+                        </View>
                     </View>
-                </View>
-                <View style={{ width: '100%', alignItems: 'center', marginVertical: 20 }}>
-                    <TouchableOpacity>
-                        <View style={styles.switchButton}>
-                            <Text style={{ color: 'white', fontSize: 18 }}>
-                                Save
+                    <View style={{ width: '100%', alignItems: 'center', marginVertical: 20 }}>
+                        <TouchableOpacity>
+                            <View style={[{ backgroundColor: user.color }, styles.switchButton]}>
+                                <Text style={{ color: 'white', fontSize: 18 }}>
+                                    Save
                                     </Text>
 
 
 
-                        </View>
-                    </TouchableOpacity>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+
+
                 </View>
-
-
             </View>
-        </View>
+        </ScrollView>
     )
 }
 
@@ -179,7 +182,6 @@ const styles = StyleSheet.create({
         padding: 10,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#004368',
         borderRadius: 30,
 
     }

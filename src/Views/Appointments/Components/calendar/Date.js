@@ -6,8 +6,9 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import type Moment from 'moment';
+import { connect } from 'react-redux';
 
-export default class Date extends PureComponent {
+class Date extends PureComponent {
 
   props: {
     date: Moment,
@@ -32,13 +33,21 @@ export default class Date extends PureComponent {
   getDayStyle = () => ({
     ...styles.text,
     ...styles.day,
-    ...(this.props.isActive ? styles.textActive : {})
+    ...(this.props.isActive ? {
+      color: this.props.user.color,
+      fontWeight: 'bold',
+      fontSize: 18
+    } : {})
   });
 
   getDateStyle = () => ({
     ...styles.text,
     ...styles.date,
-    ...(this.props.isActive ? styles.textActive : {})
+    ...(this.props.isActive ? {
+      color: this.props.user.color,
+      fontWeight: 'bold',
+      fontSize: 18
+    } : {})
   });
 
   // Call `onRender` and pass component's with when rendered
@@ -72,6 +81,16 @@ export default class Date extends PureComponent {
   }
 
 }
+
+const mapStateToProps = state => {
+  return {
+    user: state.rootReducer.Auth,
+  };
+};
+
+
+export default connect(mapStateToProps)(Date);
+
 
 const styles = {
   container: {

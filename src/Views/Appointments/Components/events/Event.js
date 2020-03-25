@@ -8,39 +8,51 @@ import {
   View,
   TouchableOpacity
 } from 'react-native';
+import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome5'
 // import type { EventType } from '../../App';
 
-export default function Event(props) {
+function Event(props) {
 
-  const { event, navigation } = props;
+  const { event, navigation, user } = props;
   const {
     date,
     title,
     description,
     image,
+
   } = event;
   return (
     <View style={styles.row}>
       <View style={styles.container}>
         <View style={styles.imageContainer}>
-          <Icon size={28} color="#004368" name="dumbbell" />
+          <Icon size={28} color={user.color} name="dumbbell" />
         </View>
 
-        <View style={styles.textContainer}>
+        <View style={[{ borderBottomColor: user.color }, styles.textContainer]}>
           <TouchableOpacity onPress={() => navigation.navigate('Root', { screen: 'Video' })}>
-            <Text style={[styles.text, styles.title]}>{title}</Text>
+            <Text style={[{ color: user.color }, styles.title]}>{title}</Text>
           </TouchableOpacity>
-          <Text style={[styles.text, styles.dateSize]}>13/02/2020</Text>
+          <Text style={[{ color: user.color }, styles.dateSize]}>13/02/2020</Text>
         </View>
 
       </View>
-      <View style={styles.circle}>
+      <View style={[{ backgroundColor: user.color }, styles.circle]}>
 
       </View>
     </View>
   );
 }
+
+const mapStateToProps = state => {
+  return {
+    user: state.rootReducer.Auth,
+  };
+};
+
+
+export default connect(mapStateToProps)(Event);
+
 
 const styles = StyleSheet.create({
   container: {
@@ -96,6 +108,6 @@ const styles = StyleSheet.create({
     width: 20,
     borderWidth: StyleSheet.hairlineWidth,
     borderRadius: 10,
-    backgroundColor: '#004368'
+    // backgroundColor: '#004368'
   }
 });

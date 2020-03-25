@@ -3,7 +3,8 @@ import { View } from 'react-native'
 import Header from '../Appointments/Components/Header';
 import Bottom from '../Appointments/Components/calendar/Bottom';
 import ProgressDetails from './Components/Progress';
-const Progress = ({ navigation }) => {
+import { connect } from 'react-redux';
+const Progress = ({ navigation, user }) => {
     return (
         <View style={{ flex: 1, width: '100%', backgroundColor: 'white' }}>
             <View style={{ flex: 2 }}>
@@ -14,7 +15,7 @@ const Progress = ({ navigation }) => {
                 />
                 <ProgressDetails />
             </View>
-            <View style={{ flex: 0.1, backgroundColor: '#004368', width: '100%', justifyContent: 'space-between', flexDirection: 'row', padding: 10 }}>
+            <View style={{ flex: 0.1, backgroundColor: user.color, width: '100%', justifyContent: 'space-between', flexDirection: 'row', padding: 10 }}>
                 <Bottom
                     navigation={navigation}
                 />
@@ -23,4 +24,12 @@ const Progress = ({ navigation }) => {
     )
 }
 
-export default Progress
+const mapStateToProps = state => {
+    return {
+        user: state.rootReducer.Auth,
+    };
+};
+
+
+export default connect(mapStateToProps)(Progress);
+

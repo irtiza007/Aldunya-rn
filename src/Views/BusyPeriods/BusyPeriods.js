@@ -3,9 +3,10 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import Header from '../Appointments/Components/Header';
 import Bottom from '../Appointments/Components/calendar/Bottom';
 import BusyCalender from './Components/BusyCalender';
-import Icons from 'react-native-vector-icons/Feather'
+import Icons from 'react-native-vector-icons/Feather';
+import { connect } from 'react-redux';
 
-const BusyPeriods = ({ navigation }) => {
+const BusyPeriods = ({ navigation, user }) => {
     const [calendarSize] = useState(375)
     return (
         <View style={styles.container}>
@@ -14,7 +15,7 @@ const BusyPeriods = ({ navigation }) => {
                     back={() => navigation.goBack()}
                 />
                 <View style={styles.calender}>
-                    <Text style={styles.heading}>
+                    <Text style={[{ color: user.color }, styles.heading]}>
                         Busy Periods
                     </Text>
                     <BusyCalender
@@ -32,7 +33,7 @@ const BusyPeriods = ({ navigation }) => {
                     </View> */}
                 </View>
             </View>
-            <View style={styles.Bottom}>
+            <View style={[{ backgroundColor: user.color }, styles.Bottom]}>
                 <Bottom
                     navigation={navigation}
                 />
@@ -43,22 +44,30 @@ const BusyPeriods = ({ navigation }) => {
 }
 
 
+const mapStateToProps = state => {
+    return {
+        user: state.rootReducer.Auth,
+    };
+};
+
+
+export default connect(mapStateToProps)(BusyPeriods);
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
 
         backgroundColor: '#FFFFFF',
     },
-    Bottom: { flex: 0.1, backgroundColor: '#004368', width: '100%', justifyContent: 'space-between', flexDirection: 'row', padding: 10 },
+    Bottom: { flex: 0.1, width: '100%', justifyContent: 'space-between', flexDirection: 'row', padding: 10 },
     calender: {
-        flex: 1,
+        flex: 1.2,
         alignItems: 'center',
         justifyContent: 'center',
 
     },
     heading: {
         fontSize: 24,
-        color: '#004368',
         fontWeight: 'bold',
         // marginVertical: '10%'
     },
@@ -70,4 +79,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default BusyPeriods
+

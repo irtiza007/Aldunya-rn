@@ -43,7 +43,7 @@ const Progress = () => {
                 <View style={styles.row}>
                     <View style={styles.item}>
                         <Text style={styles.rowText}>
-                            Time
+                            Average Time
                                 </Text>
                     </View>
                     <View style={styles.item2}>
@@ -55,36 +55,36 @@ const Progress = () => {
                 <View style={styles.row}>
                     <View style={styles.item}>
                         <Text style={styles.rowText}>
-                            Time
+                            Total Reps
                                 </Text>
                     </View>
                     <View style={styles.item2}>
                         <Text style={styles.rowText}>
-                            8 min
+                            3
                                      </Text>
                     </View>
                 </View>
                 <View style={styles.row}>
                     <View style={styles.item}>
                         <Text style={styles.rowText}>
-                            Time
+                            Total Sets
                                 </Text>
                     </View>
                     <View style={styles.item2}>
                         <Text style={styles.rowText}>
-                            8 min
+                            4
                                      </Text>
                     </View>
                 </View>
                 <View style={styles.row}>
                     <View style={styles.item}>
                         <Text style={styles.rowText}>
-                            Time
+                            Tracking device
                                 </Text>
                     </View>
                     <View style={styles.item2}>
                         <Text style={styles.rowText}>
-                            8 min
+                            FitBit
                                      </Text>
                     </View>
                 </View>

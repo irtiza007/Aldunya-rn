@@ -10,6 +10,8 @@ const INITIAL_STATE = {
     weight: '',
     imageUrl: '',
     color: '#004368',
+    height: '',
+    problem: '',
     blindMode: true,
     login: false
 };

@@ -297,7 +297,7 @@ export default class Calendar extends PureComponent {
 
     return (
       <View>
-        <Text style={styles.visibleMonthAndYear}>
+        <Text style={[{ color: this.props.color }, styles.visibleMonthAndYear]}>
           {visibleMonthAndYear}
         </Text>
         <ScrollView
@@ -323,7 +323,6 @@ export default class Calendar extends PureComponent {
 
 const styles = StyleSheet.create({
   visibleMonthAndYear: {
-    color: 'black',
     paddingHorizontal: 15,
     textAlign: 'center',
     fontWeight: 'bold',

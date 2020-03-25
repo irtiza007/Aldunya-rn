@@ -4,7 +4,10 @@ import Ionicons from 'react-native-vector-icons/FontAwesome5';
 import IconLine from 'react-native-vector-icons/SimpleLineIcons';
 import { setAuthInfo } from '../../Action/Auth';
 import { connect } from 'react-redux';
-import { signIn } from '../../Api/Api';
+import {
+    signIn,
+    getClientForFacebook
+} from '../../Api/Api';
 const screenWidth = Math.round(Dimensions.get('window').width);
 const screenHeight = Math.round(Dimensions.get('window').height);
 import {
@@ -31,12 +34,49 @@ function Login({ navigation, user, setAuthData }) {
         if (error) {
             Alert.alert('Error fetching data: ' + error.toString());
         } else {
-            setAuthData({
-                username: result.name,
-                login: true,
-                userUrl: result.picture.data.url
-            })
+            // setAuthData({
+            //     username: result.name,
+            //     login: true,
+            //     userUrl: result.picture.data.url
+            // })
+            console.log(result);
+            setLoading(true)
+            getClientForFacebook(
+                {
+                    "id": result.id, "name": result.name, "email": result.email,
+                    "file": result.picture.data.url
+                }
+            )
+                .then(res => {
 
+                    setAuthData({
+                        name: res.data.user.name,
+                        lastName: res.data.user.lastName,
+                        userId: res.data.user._id,
+                        contactMethod: res.data.contactmethod,
+                        email: res.data.user.email,
+                        weight: res.data.user.weight,
+                        phoneNumber: res.data.user.phoneNumber,
+                        imageUrl: res.data.user.file,
+                        color: user.color,
+                        blindMode: user.blindMode,
+                        login: true,
+                        height: res.data.user.height,
+                        problem: res.data.user.problem
+                    })
+                    setLoading(false);
+                    navigation.reset({
+                        index: 0,
+                        routes: [{ name: 'Root' }],
+                    });
+
+
+
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+            console.log(result)
             // navigation.navigate("PhoneNumberForm");
         }
     };
@@ -51,7 +91,7 @@ function Login({ navigation, user, setAuthData }) {
                     console.log({ result })
                     AccessToken.getCurrentAccessToken().then(data => {
                         const processRequest = new GraphRequest(
-                            '/me?fields=name,picture.type(large)',
+                            '/me?fields=name,email,picture.type(large)',
                             null,
                             get_Response_Info
                         );
@@ -93,7 +133,9 @@ function Login({ navigation, user, setAuthData }) {
                             imageUrl: res.data.file,
                             color: user.color,
                             blindMode: user.blindMode,
-                            login: true
+                            login: true,
+                            height: res.data.height,
+                            problem: res.data.problem
                         })
                         setLoading(false);
                         navigation.reset({

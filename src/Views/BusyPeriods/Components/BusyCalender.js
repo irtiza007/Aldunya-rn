@@ -1,49 +1,90 @@
-import React, { Component, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     StyleSheet,
     Text,
     View,
-    Alert
+    Alert,
+    ActivityIndicator
 } from 'react-native';
-import moment from 'moment'
+import moment from 'moment';
+import { connect } from 'react-redux';
 import CalendarPicker from 'react-native-calendar-picker';
+import { addBusyDay, getBusyDays } from '../../../Api/Api';
 let today = moment();
-let day = today.clone().startOf('month');
-const customedates = [{ date: "2020-02-19T10:21:16.821Z", containerStyle: [], style: { backgroundColor: '#5f8cda' }, textStyle: { color: 'white' } },
-{ date: "2020-02-20T10:21:16.821Z", containerStyle: [], style: { backgroundColor: '#5f8cda' }, textStyle: { color: 'white' } },
-{ date: "2020-02-21T10:21:16.821Z", containerStyle: [], style: { backgroundColor: '#5f8cda' }, textStyle: { color: 'white' } }
-]
 
-export default function BusyCalender({ size = 400 }) {
+function BusyCalender({ size = 400, user }) {
+    const [loading, setLoading] = useState(true);
+    const [data, setData] = useState([])
+    useEffect(() => {
+        getIntialData();
+    }, [])
 
+    const getIntialData = () => {
+        setLoading(true)
+        getBusyDays(user.userId)
+            .then(res => {
+                setLoading(false)
+                setData(res.data)
+                let array = [];
+                res.data.map(value => {
+                    array.push({ date: value.date, containerStyle: [], style: { backgroundColor: '#5f8cda' }, textStyle: { color: 'white' } })
+                })
+                setData(array);
+            })
+            .catch(err => {
+                setLoading(false)
+                console.log(err)
+            })
+    }
 
-    const [startDate, setStartDate] = useState(new Date())
+    // const [startDate, setStartDate] = useState(new Date())
     const onDateChange = (date, type) => {
         if (type === 'END_DATE') {
 
         } else {
-            setStartDate(date)
+            // setStartDate(date)
+            setLoading(true)
+            console.log(moment.utc(date).format('YYYY-MM-DD'));
+            setLoading(true);
+            addBusyDay({ date: moment.utc(date).format('YYYY-MM-DD'), userId: user.userId })
+                .then(res => {
+                    // setLoading(false);
+                    getIntialData()
+                    // setData(data => [...data, { date: date, containerStyle: [], style: { backgroundColor: '#5f8cda' }, textStyle: { color: 'white' } }]);
+                })
+                .catch(err => {
+                    Alert.alert('Something went wrong please try again later')
+                    console.log(err)
+                    setLoading(false)
+                })
         }
     }
 
     return (
         <View style={styles.container}>
-            <CalendarPicker
-                todayTextStyle={{ fontWeight: 'bold', }}
-                todayBackgroundColor={'white'}
-                customDatesStyles={customedates}
-                minDate={today}
-                onDateChange={onDateChange}
-                enableSwipe={true}
-                startFromMonday={true}
-                selectedStartDate={startDate}
-                selectedDayColor='#5f8cda'
-                selectedDayTextColor="#FFFFFF"
-                scaleFactor={size}
+            {loading ? (
+                <View style={{ flex: 0.8, justifyContent: 'center', alignItems: 'center' }}>
+                    <ActivityIndicator size="large" color={user.color} />
+                </View>
+            ) : (
+                    <CalendarPicker
+                        todayTextStyle={{ fontWeight: 'bold', }}
+                        todayBackgroundColor={'white'}
+                        customDatesStyles={data}
+                        minDate={today}
+                        onDateChange={onDateChange}
+                        enableSwipe={true}
+                        startFromMonday={true}
+                        // selectedStartDate={startDate}
+                        selectedDayColor='#5f8cda'
+                        selectedDayTextColor="#FFFFFF"
+                        scaleFactor={size}
 
-            // selectedDayColor={"blue"}
+                    // selectedDayColor={"blue"}
 
-            />
+                    />
+                )}
+
         </View>
     );
 }
@@ -55,3 +96,17 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFFFFF',
     },
 });
+
+const mapStateToProps = state => {
+    return {
+        user: state.rootReducer.Auth,
+    };
+};
+
+// function mapDispatchToProps(dispatch) {
+//     return {
+//         setAuthData: data => dispatch(setAuthInfo(data)),
+//     };
+// }
+
+export default connect(mapStateToProps)(BusyCalender);

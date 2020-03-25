@@ -1,13 +1,13 @@
 import React from 'react'
 import { View, Text, StyleSheet, Image, TouchableOpacity, Alert } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
-
-const Header = ({ navigation, back = "", exercise = false, hideProfile = false, heading }) => {
+import { connect } from 'react-redux';
+const Header = ({ navigation, back = "", exercise = false, hideProfile = false, heading, user }) => {
     return (
         <View style={styles.header}>
             {back !== "" ? (
                 <TouchableOpacity onPress={back}>
-                    <Icon name="ios-arrow-back" size={35} color="#004368" />
+                    <Icon name="ios-arrow-back" size={35} color={user.color} />
                 </TouchableOpacity>
             ) : (
                     <View>
@@ -17,18 +17,18 @@ const Header = ({ navigation, back = "", exercise = false, hideProfile = false, 
             {!hideProfile && (
                 <View style={exercise ? styles.exercise : styles.imageContainer}>
                     <TouchableOpacity onPress={() => navigation.navigate('Root', { screen: 'Profile' })} disabled={exercise ? true : false}>
-                        <Image style={styles.image} source={exercise ? require('../../../Assets/Dumble-Icon.png') : ({ uri: 'https://pbs.twimg.com/profile_images/914555270235291648/o_oK5POE_400x400.jpg' })} />
+                        <Image style={styles.image} source={exercise ? require('../../../Assets/Dumble-Icon.png') : ({ uri: user.imageUrl })} />
                     </TouchableOpacity>
                     {exercise && (
-                        <Text style={{ fontSize: 15, color: '#004368', fontWeight: 'bold' }}>
+                        <Text style={{ fontSize: 15, color: user.color, fontWeight: 'bold' }}>
                             Exercise
-   </Text>
+                        </Text>
                     )}
 
                 </View>
             )}
             {heading === "Progress" && (
-                <Text style={{ fontSize: 19, color: '#004368', fontWeight: '500' }}>
+                <Text style={{ fontSize: 19, color: user.color, fontWeight: '500' }}>
                     {heading}
                 </Text>
             )}
@@ -36,13 +36,21 @@ const Header = ({ navigation, back = "", exercise = false, hideProfile = false, 
             <TouchableOpacity onPress={() => {
                 navigation.toggleDrawer();
             }}>
-                <Icon name="md-menu" size={35} color="#004368" />
+                <Icon name="md-menu" size={35} color={user.color} />
             </TouchableOpacity>
         </View>
     )
 }
 
-export default Header
+
+const mapStateToProps = state => {
+    return {
+        user: state.rootReducer.Auth,
+    };
+};
+
+
+export default connect(mapStateToProps)(Header);
 
 const styles = StyleSheet.create({
     header: {
@@ -55,7 +63,7 @@ const styles = StyleSheet.create({
     },
     imageContainer: {
         borderWidth: StyleSheet.hairlineWidth,
-        borderColor: '#004368',
+        // borderColor: { user.color },
         justifyContent: 'center',
         alignItems: 'center',
         width: 50,

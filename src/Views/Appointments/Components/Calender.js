@@ -1,16 +1,21 @@
 // @flow
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     StyleSheet,
     StatusBar,
     View,
     Alert,
+    ActivityIndicator,
+    Text
 } from 'react-native';
 import faker from 'faker';
 import moment from 'moment';
 import Calendar from './calendar/Calendar';
 import Events from './events/Events';
+import { connect } from 'react-redux';
+import { getAssignExcercise } from '../../../Api/Api';
+import Icons from 'react-native-vector-icons/FontAwesome'
 
 
 
@@ -29,16 +34,36 @@ const FAKE_EVENTS = (() => {
 // Filter events by date
 const filterEvents = (date) =>
     FAKE_EVENTS.filter(event => event.date.isSame(date, 'day'));
-export default function CalendarView({ navigation }) {
+function CalendarView({ navigation, user }) {
     // const [events, setEvents] = useState(filterEvents(moment()))
-    const [events, setEvents] = useState(filterEvents(moment()))
+    const [events, setEvents] = useState(filterEvents(moment()));
+    const [data, setData] = useState([])
+    const [loading, setLoading] = useState(true);
 
-    console.log(moment())
+
+    useEffect(() => {
+        getExcercise(moment.utc().format('YYYY-MM-DD'))
+    }, [])
+
+    const getExcercise = (date) => {
+        Alert.alert(date.toString())
+        setLoading(true)
+        getAssignExcercise(user.userId, { startDate: date })
+            .then(res => {
+                console.log(res)
+                setData(res.data)
+                setLoading(false)
+            })
+            .catch(err => {
+                console.log(err)
+                setLoading(false)
+            })
+    }
 
 
     const onSelectDate = (date) => {
-        Alert.alert(date.toString())
-        // Alert.alert('i am clicked')
+        // Alert.alert(date.toString())
+        getExcercise(moment.utc(date).format('YYYY-MM-DD'))
         setEvents(filterEvents(date))
     };
     return (
@@ -48,14 +73,39 @@ export default function CalendarView({ navigation }) {
                 // currentDate={"Tue Jan 22 2020 14:03:30 GMT+0500 (Pakistan Standard Time)"}
                 showDaysAfterCurrent={10}
                 showDaysBeforeCurrent={10}
+                color={user.color}
             />
-            <Events events={events}
-                navigation={navigation}
-            />
+            {loading ? (
+                <ActivityIndicator size="large" color="red" />
+            ) : (
+                    <>
+                        {data == "Assign Exercise doesnot exist" ? (
+                            <View style={{ flex: 0.8, justifyContent: 'center', alignItems: 'center' }}>
+                                <Icons name="inbox" color={user.color} size={40} />
+                                <Text style={{ color: user.color, fontSize: 20 }}>
+                                    Opps..! No Excercises Found
+                        </Text>
+                            </View>
+                        ) : (
+                                <Events events={events}
+                                    navigation={navigation}
+                                />
+                            )}
+
+                    </>
+                )}
+
         </View>
     );
 }
+const mapStateToProps = state => {
+    return {
+        user: state.rootReducer.Auth,
+    };
+};
 
+
+export default connect(mapStateToProps)(CalendarView);
 
 const styles = StyleSheet.create({
     container: {
