@@ -7,7 +7,8 @@ const routes = {
     ADD_BUSY_DAY: 'addBusyDay',
     GET_BUSY_DAYS: 'getBusyDay',
     GET_ASSIGN_EXERCISE: 'getAllAssignExcercise',
-    CLIENT: 'client/mobile'
+    CLIENT: 'client/mobile',
+    ADD_RATING: 'addRating'
 }
 
 
@@ -58,6 +59,15 @@ const getClientForFacebook = async (params) => {
 };
 
 
+const postRating = async (body) => {
+    try {
+        const res = await axios.post(`${routes.ADD_RATING}`, body)
+        return res;
+    } catch (err) {
+        throw err.response;
+    }
+}
+
 
 
 export {
@@ -65,6 +75,7 @@ export {
     addBusyDay,
     getBusyDays,
     getAssignExcercise,
-    getClientForFacebook
+    getClientForFacebook,
+    postRating
 
 }

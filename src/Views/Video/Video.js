@@ -1,16 +1,36 @@
 import React, { useState } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image, ProgressBarAndroid, Dimensions } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image, ProgressBarAndroid, Dimensions, ActivityIndicator } from 'react-native'
 import Header from '../Appointments/Components/Header';
 import Bottom from '../Appointments/Components/calendar/Bottom';
 import Video from './Components/Video';
-
-
 import ProgressBarAnimated from 'react-native-progress-bar-animated';
 import Rating from '../../Components/Rating';
+import { postRating } from '../../Api/Api';
+import { connect } from 'react-redux';
 const barWidth = 200;
 
-const Videos = ({ navigation }) => {
+const Videos = ({ navigation, route, user }) => {
     const [ShowRatings, setShowRatings] = useState(false);
+    const [loading, setLoading] = useState(false)
+
+    const { value } = route.params;
+
+    const postRatings = (value) => {
+        setLoading(true)
+        postRating({ rating: value, userId: user.userId })
+            .then(res => {
+
+                setShowRatings(false);
+                setLoading(false);
+                navigation.goBack();
+            })
+            .catch(err => {
+                setLoading(false)
+                console.log(err)
+            })
+
+        // setShowRatings(false)
+    }
 
     return (
         <View style={styles.container}>
@@ -21,7 +41,8 @@ const Videos = ({ navigation }) => {
                 />
                 {ShowRatings ? (
                     <Rating
-                        setShowRatings={setShowRatings}
+                        setShowRatings={postRatings}
+                        navigation={navigation}
                     />
                 ) : (
                         <>
@@ -29,24 +50,19 @@ const Videos = ({ navigation }) => {
                             <View>
                                 <Video
                                     setShowRatings={setShowRatings}
+                                    url={value.file}
+                                    title={value.exercise}
                                 />
                             </View>
                             <View style={styles.scrollArea}>
                                 <ScrollView>
                                     <View>
-                                        <Text style={[styles.heading, { marginVertical: 10 }]}>
+                                        <Text style={[styles.heading, { marginVertical: 10, color: user.color }]}>
                                             Description
                         </Text>
-                                        <Text style={styles.description}>
-                                            Lorem Ipsum is simply dummy
-                    of the printing and typesetting
-                    industry. Lorem Ipsum has been
-                    the industry's standard dummy
-                    text ever since the 1500s, when an
-                    unknown printer took a galley of
-                    type and scrambled it to make a
-                    type specim
-                        </Text>
+                                        <Text style={[{ color: user.color }, styles.description]}>
+                                            {value.description}
+                                        </Text>
                                     </View>
                                     <View style={styles.videoDescription}>
                                         <View style={styles.row}>
@@ -64,46 +80,49 @@ const Videos = ({ navigation }) => {
                                         <View style={styles.row}>
                                             <View style={styles.item}>
                                                 <Text style={styles.rowText}>
-                                                    Time
+                                                    Reps
                                 </Text>
                                             </View>
                                             <View style={styles.item2}>
                                                 <Text style={styles.rowText}>
-                                                    8 min
-                                     </Text>
+                                                    {value.reps}
+                                                </Text>
                                             </View>
                                         </View>
                                         <View style={styles.row}>
                                             <View style={styles.item}>
                                                 <Text style={styles.rowText}>
-                                                    Time
+                                                    Sets
                                 </Text>
                                             </View>
                                             <View style={styles.item2}>
                                                 <Text style={styles.rowText}>
-                                                    8 min
-                                     </Text>
+                                                    {value.sets}
+                                                </Text>
                                             </View>
                                         </View>
                                         <View style={styles.row}>
                                             <View style={styles.item}>
                                                 <Text style={styles.rowText}>
-                                                    Time
+                                                    Tracking Device
                                 </Text>
                                             </View>
                                             <View style={styles.item2}>
                                                 <Text style={styles.rowText}>
-                                                    8 min
+                                                    FitBit
                                      </Text>
                                             </View>
                                         </View>
                                     </View>
                                     <View style={styles.buttons}>
                                         <TouchableOpacity onPress={() => setShowRatings(true)}>
-                                            <View style={styles.switchButton}>
-                                                <Text style={{ color: 'white', fontSize: 18 }}>
-                                                    Switch
-                                    </Text>
+                                            <View style={[{ backgroundColor: user.color }, styles.switchButton]}>
+                                                {loading ? <ActivityIndicator size="small" color={user.color} /> : (
+                                                    <Text style={{ color: 'white', fontSize: 18 }}>
+                                                        Switch
+                                                    </Text>
+                                                )}
+
 
                                                 <Image source={require('../../Assets/Switch-Icon.png')}
                                                     style={{ width: 20, height: 20, marginLeft: 5, marginTop: 5 }}
@@ -117,8 +136,8 @@ const Videos = ({ navigation }) => {
                                                 borderRadius={30}
                                                 width={barWidth}
                                                 value={20}
-                                                backgroundColor='#004368'
-                                                backgroundColorOnComplete='#004368'
+                                                backgroundColor={user.color}
+                                                backgroundColorOnComplete={user.color}
                                             />
                                         </View>
                                     </View>
@@ -128,7 +147,7 @@ const Videos = ({ navigation }) => {
                     )}
 
             </View>
-            <View style={styles.Bottom}>
+            <View style={[{ backgroundColor: user.color }, styles.Bottom]}>
                 <Bottom
                     navigation={navigation}
                 />
@@ -138,6 +157,15 @@ const Videos = ({ navigation }) => {
     )
 }
 
+const mapStateToProps = state => {
+    return {
+        user: state.rootReducer.Auth,
+    };
+};
+
+
+export default connect(mapStateToProps)(Videos);
+
 
 const styles = StyleSheet.create({
     container: {
@@ -146,10 +174,10 @@ const styles = StyleSheet.create({
         width: '100%',
         backgroundColor: '#FFFFFF',
     },
-    Bottom: { flex: 0.1, backgroundColor: '#004368', width: '100%', justifyContent: 'space-between', flexDirection: 'row', padding: 10 },
+    Bottom: { flex: 0.1, width: '100%', justifyContent: 'space-between', flexDirection: 'row', padding: 10 },
     heading: {
         fontSize: 24,
-        color: '#004368',
+
         fontWeight: '500',
         // marginVertical: '10%'
     },
@@ -161,7 +189,7 @@ const styles = StyleSheet.create({
     },
 
     description: {
-        color: '#004368',
+
         fontSize: 19
     },
     videoDescription: {
@@ -198,10 +226,10 @@ const styles = StyleSheet.create({
         padding: 10,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#004368',
+
         borderRadius: 30,
 
     }
 });
 
-export default Videos
+

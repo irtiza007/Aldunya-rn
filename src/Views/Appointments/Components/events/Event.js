@@ -9,19 +9,13 @@ import {
   TouchableOpacity
 } from 'react-native';
 import { connect } from 'react-redux';
-import Icon from 'react-native-vector-icons/FontAwesome5'
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import moment from 'moment';
 // import type { EventType } from '../../App';
 
 function Event(props) {
+  const { navigation, user, value } = props;
 
-  const { event, navigation, user } = props;
-  const {
-    date,
-    title,
-    description,
-    image,
-
-  } = event;
   return (
     <View style={styles.row}>
       <View style={styles.container}>
@@ -30,17 +24,17 @@ function Event(props) {
         </View>
 
         <View style={[{ borderBottomColor: user.color }, styles.textContainer]}>
-          <TouchableOpacity onPress={() => navigation.navigate('Root', { screen: 'Video' })}>
-            <Text style={[{ color: user.color }, styles.title]}>{title}</Text>
+          <TouchableOpacity onPress={() => navigation.navigate('Root', { screen: 'Video', params: { value, value }, })}>
+            <Text style={[{ color: user.color }, styles.title]}>{value.exercise}</Text>
           </TouchableOpacity>
-          <Text style={[{ color: user.color }, styles.dateSize]}>13/02/2020</Text>
+          <Text style={[{ color: user.color }, styles.dateSize]}>{moment.utc(value.startDate).format('YYYY/MM/DD')}</Text>
         </View>
 
       </View>
       <View style={[{ backgroundColor: user.color }, styles.circle]}>
 
       </View>
-    </View>
+    </View >
   );
 }
 

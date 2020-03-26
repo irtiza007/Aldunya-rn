@@ -82,7 +82,7 @@ const Rating = ({ setShowRatings }) => {
                 </View>
             </View>
             <View style={{ flex: 0.5, justifyContent: 'center', alignItems: 'center' }}>
-                <TouchableOpacity onPress={() => setShowRatings(false)}>
+                <TouchableOpacity onPress={() => setShowRatings(status)}>
                     <View style={styles.switchButton}>
                         <Text style={{ color: 'white', fontSize: 18 }}>
                             Submit

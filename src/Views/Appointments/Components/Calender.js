@@ -46,7 +46,7 @@ function CalendarView({ navigation, user }) {
     }, [])
 
     const getExcercise = (date) => {
-        Alert.alert(date.toString())
+        // Alert.alert(date.toString())
         setLoading(true)
         getAssignExcercise(user.userId, { startDate: date })
             .then(res => {
@@ -79,7 +79,7 @@ function CalendarView({ navigation, user }) {
                 <ActivityIndicator size="large" color="red" />
             ) : (
                     <>
-                        {data == "Assign Exercise doesnot exist" ? (
+                        {data.length < 1 ? (
                             <View style={{ flex: 0.8, justifyContent: 'center', alignItems: 'center' }}>
                                 <Icons name="inbox" color={user.color} size={40} />
                                 <Text style={{ color: user.color, fontSize: 20 }}>
@@ -88,6 +88,7 @@ function CalendarView({ navigation, user }) {
                             </View>
                         ) : (
                                 <Events events={events}
+                                    data={data}
                                     navigation={navigation}
                                 />
                             )}

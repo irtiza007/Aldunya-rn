@@ -75,7 +75,7 @@ class App extends Component {
     };
     renderToolbar = () => (
         <View>
-            <Text> toolbar </Text>
+            <Text> {this.props.title}</Text>
         </View>
     );
     onSeeking = currentTime => this.setState({ currentTime });
@@ -92,7 +92,7 @@ class App extends Component {
                     ref={videoPlayer => (this.videoPlayer = videoPlayer)}
                     resizeMode={this.state.screenType}
                     onFullScreen={this.state.isFullScreen}
-                    source={{ uri: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4' }}
+                    source={{ uri: this.props.url }}
                     style={styles.mediaPlayer}
                     volume={10}
                 />

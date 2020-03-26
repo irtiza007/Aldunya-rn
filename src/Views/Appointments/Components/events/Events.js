@@ -9,12 +9,12 @@ import {
 import Event from './Event';
 
 export default function Events(props) {
-  const { events, navigation } = props;
+  const { events, navigation, data } = props;
   return (
     <View style={styles.container}>
       <ScrollView>
-        {events && events.map((event, index) =>
-          <Event event={event} key={index}
+        {data && data.map((value, index) =>
+          <Event value={value} key={index}
             navigation={navigation}
           />)}
       </ScrollView>
