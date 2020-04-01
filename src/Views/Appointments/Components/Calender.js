@@ -87,10 +87,12 @@ function CalendarView({ navigation, user }) {
                         </Text>
                             </View>
                         ) : (
-                                <Events
-                                    data={data}
-                                    navigation={navigation}
-                                />
+                                <>
+                                    <Events
+                                        data={data}
+                                        navigation={navigation}
+                                    />
+                                </>
                             )}
 
                     </>

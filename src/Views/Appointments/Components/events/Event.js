@@ -16,31 +16,61 @@ import moment from 'moment';
 // import type { EventType } from '../../App';
 
 function Event(props) {
-  const { navigation, user, value } = props;
+  const { navigation, user, value, showBusy } = props;
 
   return (
-    <View style={styles.row}>
-      <View style={styles.container}>
-        <View style={styles.imageContainer}>
-          <Icon size={28} color={user.color} name="dumbbell" />
-          {/* <IconCalender size={28} color={user.color}
-            // name="calendar-clock"
-            name="minus"
-          /> */}
-        </View>
+    <>
+      {showBusy ? (
+        <View style={styles.row}>
+          <View style={styles.container}>
+            <View style={styles.imageContainer}>
+              {/* <Icon size={28} color={user.color} name="dumbbell" /> */}
+              <IconCalender size={28} color={user.color}
+                // name="calendar-clock"
+                name="minus"
+              />
+            </View>
 
-        <View style={[{ borderBottomColor: user.color }, styles.textContainer]}>
-          <TouchableOpacity onPress={() => navigation.navigate('Root', { screen: 'Video', params: { value, value }, })}>
-            <Text style={[{ color: user.color }, styles.title]}>{value.exercise}</Text>
-          </TouchableOpacity>
-          <Text style={[{ color: user.color }, styles.dateSize]}>{moment.utc(value.startDate).format('YYYY/MM/DD')}</Text>
-        </View>
+            <View style={[{ borderBottomColor: user.color }, styles.textContainer]}>
+              <TouchableOpacity onPress={() => navigation.navigate('Root', { screen: 'Video', params: { value, value }, })}>
+                <Text style={[{ color: user.color }, styles.title]}>Busy</Text>
+              </TouchableOpacity>
+              <Text style={[{ color: user.color }, styles.dateSize]}>{moment.utc(value.busyRecord.date).format('YYYY/MM/DD')}</Text>
+            </View>
 
-      </View>
-      <View style={[{ backgroundColor: user.color }, styles.circle]}>
+          </View>
+          <View style={[{ backgroundColor: user.color }, styles.circle]}>
 
-      </View>
-    </View >
+          </View>
+        </View >
+      ) : (
+          <View style={styles.row}>
+            <View style={styles.container}>
+              <View style={styles.imageContainer}>
+                {value.type === "appointement" ? (<IconCalender size={28} color={user.color}
+                  name="calendar-clock"
+                />) : (<Icon size={28} color={user.color} name="dumbbell" />)}
+              </View>
+
+              <View style={[{ borderBottomColor: user.color }, styles.textContainer]}>
+                <TouchableOpacity onPress={() => navigation.navigate('Root', { screen: 'Video', params: { value, value }, })}
+                  disabled={value.type === "appointement"}
+                >
+                  <Text style={[{ color: user.color }, styles.title]}>{
+                    value.type === "appointement" ? value.notes :
+                      value.exercise}</Text>
+                </TouchableOpacity>
+                <Text style={[{ color: user.color }, styles.dateSize]}>{value.type === "appointement" ? moment.utc(value.startDate).format('YYYY/MM/DD h:mm A') : moment.utc(value.startDate).format('YYYY/MM/DD')}</Text>
+              </View>
+
+            </View>
+            <View style={[{ backgroundColor: user.color }, styles.circle]}>
+
+            </View>
+          </View >
+        )}
+
+    </>
   );
 }
 

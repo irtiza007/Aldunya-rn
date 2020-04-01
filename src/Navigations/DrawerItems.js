@@ -25,7 +25,7 @@ const DrawerItems = ({ Navigation, user, updateBlindColor, resetAuthInfo }) => {
                             <Image style={styles.image} source={{ uri: user.imageUrl }} />
                         </View>
                         <View style={styles.textContainer}>
-                            <Text style={[{ color: user.color, width: '70%' }, styles.title]} textBreakStrategy="balanced"
+                            <Text style={[{ color: user.color, width: '80%' }, styles.title]} textBreakStrategy="balanced"
                                 numberOfLines={1}
                                 ellipsizeMode="tail"
                             >{user.name}</Text>
@@ -57,12 +57,16 @@ const DrawerItems = ({ Navigation, user, updateBlindColor, resetAuthInfo }) => {
                     <View>
                         <Text style={[{ color: user.color }, styles.itemsTitle]}>Zoom</Text>
                     </View>
+
                     <View style={[{ borderBottomColor: user.color, borderBottomColor: user.color }, styles.zoomRow]}>
-                        <Icon size={28} name="minus" color={user.color} />
+                        {/* <Icon size={28} name="minus" color={user.color} />
                         <View style={styles.textContainer}>
                             <Text style={[{ color: user.color }, styles.itemsTitle]}>90%</Text>
                         </View>
-                        <Icon size={28} name="zoom-in" color={user.color} />
+                        <Icon size={28} name="zoom-in" color={user.color} /> */}
+                        <Text style={{ margin: 8, color: user.color }}>
+                            Double Tap to Zoom
+                    </Text>
                     </View>
                 </View>
                 <TouchableOpacity style={[styles.row, styles.marginTop]} onPress={() => {

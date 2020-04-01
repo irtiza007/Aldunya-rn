@@ -114,7 +114,7 @@ function Login({ navigation, user, setAuthData }) {
         }
         else {
             setLoading(true);
-            signIn({ "passcode": "Xj3oJ94oB" })
+            signIn({ "passcode": passcode })
                 .then(res => {
                     console.log(res.data)
                     if (res.data == "Client doesnot exist") {
@@ -200,7 +200,7 @@ function Login({ navigation, user, setAuthData }) {
                                         </View>
                                     </TouchableOpacity>
                                 </View>
-                                <View style={styles.rowIcons}>
+                                {/* <View style={styles.rowIcons}>
                                     <TouchableOpacity>
                                         <View style={styles.google}>
                                             <Ionicons name={"google"} size={22} color={"white"} />
@@ -211,7 +211,7 @@ function Login({ navigation, user, setAuthData }) {
                                             <Ionicons name={"facebook-f"} size={22} color={"white"} />
                                         </View>
                                     </TouchableOpacity>
-                                </View>
+                                </View> */}
                             </>
                         )}
                 </View>
