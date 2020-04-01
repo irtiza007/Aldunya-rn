@@ -114,17 +114,18 @@ function Login({ navigation, user, setAuthData }) {
         }
         else {
             setLoading(true);
-            signIn({ "passcode": passcode })
+            signIn({ "passcode": "Xj3oJ94oB" })
                 .then(res => {
-
+                    console.log(res.data)
                     if (res.data == "Client doesnot exist") {
                         Alert.alert('Please Enter Correct passcode')
                         setLoading(false)
                     }
                     else {
+
                         setAuthData({
                             name: res.data.name,
-                            lastName: res.data.lastName,
+                            lastName: res.data.lastname,
                             userId: res.data._id,
                             contactMethod: res.data.contactmethod,
                             email: res.data.email,
@@ -135,7 +136,9 @@ function Login({ navigation, user, setAuthData }) {
                             blindMode: user.blindMode,
                             login: true,
                             height: res.data.height,
-                            problem: res.data.problem
+                            problem: res.data.problem,
+                            age: res.data.age
+
                         })
                         setLoading(false);
                         navigation.reset({

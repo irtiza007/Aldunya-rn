@@ -9,7 +9,7 @@ import {
 import Event from './Event';
 
 export default function Events(props) {
-  const { events, navigation, data } = props;
+  const { navigation, data } = props;
   return (
     <View style={styles.container}>
       <ScrollView>

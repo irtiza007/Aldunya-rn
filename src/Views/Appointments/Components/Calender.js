@@ -71,15 +71,15 @@ function CalendarView({ navigation, user }) {
             <StatusBar hidden={false} />
             <Calendar onSelectDate={onSelectDate}
                 // currentDate={"Tue Jan 22 2020 14:03:30 GMT+0500 (Pakistan Standard Time)"}
-                showDaysAfterCurrent={10}
-                showDaysBeforeCurrent={10}
+                showDaysAfterCurrent={30}
+                showDaysBeforeCurrent={30}
                 color={user.color}
             />
             {loading ? (
                 <ActivityIndicator size="large" color="red" />
             ) : (
                     <>
-                        {data.length < 1 ? (
+                        {data === "Assign Exercise doesnot exist" || data.length < 1 ? (
                             <View style={{ flex: 0.8, justifyContent: 'center', alignItems: 'center' }}>
                                 <Icons name="inbox" color={user.color} size={40} />
                                 <Text style={{ color: user.color, fontSize: 20 }}>
@@ -87,7 +87,7 @@ function CalendarView({ navigation, user }) {
                         </Text>
                             </View>
                         ) : (
-                                <Events events={events}
+                                <Events
                                     data={data}
                                     navigation={navigation}
                                 />

@@ -33,7 +33,7 @@ const Profile = ({ user }) => {
                         </View>
                         <View style={styles.item2}>
                             <Text style={styles.rowText2}>
-                                {user.lastname}
+                                {user.lastName}
                             </Text>
                         </View>
                     </View>

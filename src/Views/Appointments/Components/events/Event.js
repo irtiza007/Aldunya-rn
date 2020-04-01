@@ -10,6 +10,8 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import IconCalender from 'react-native-vector-icons/MaterialCommunityIcons'
+// calendar-clock
 import moment from 'moment';
 // import type { EventType } from '../../App';
 
@@ -21,6 +23,10 @@ function Event(props) {
       <View style={styles.container}>
         <View style={styles.imageContainer}>
           <Icon size={28} color={user.color} name="dumbbell" />
+          {/* <IconCalender size={28} color={user.color}
+            // name="calendar-clock"
+            name="minus"
+          /> */}
         </View>
 
         <View style={[{ borderBottomColor: user.color }, styles.textContainer]}>
