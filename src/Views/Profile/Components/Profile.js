@@ -1,11 +1,44 @@
 import React, { useState } from 'react'
-import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, Alert, ActivityIndicator } from 'react-native';
 import { Form, Item, Picker } from 'native-base';
 import Icon from 'react-native-vector-icons/Ionicons'
+import { updateProfile } from '../../../Api/Api';
+
 // import { ScrollView } from 'react-native-gesture-handler';
 
 const Profile = ({ user }) => {
-    const [preferred, setPreferred] = useState('')
+    const [preferred, setPreferred] = useState(user.contactMethod);
+    const [loading, setLoading] = useState(false)
+
+    const updatePhoneNumber = () => {
+        setLoading(true)
+        let body = {
+            "id": user.userId,
+            "name": user.name,
+            "lastname": user.lastName,
+            "age": user.age,
+            "height": user.height,
+            "phoneNumber": user.phoneNumber,
+            "weight": user.weight,
+            "contactmethod": preferred,
+            "problem": user.problem,
+            "exercise": "",
+            "email": user.email,
+            "file": user.imageUrl
+        }
+        console.log(body);
+        updateProfile(user.userId, body)
+            .then(res => {
+                setLoading(false)
+                console.log(res)
+                Alert.alert("Preferred Contact Updated")
+            })
+            .catch(err => {
+                setLoading(false)
+                Alert.alert("Something went wrong please try again later")
+                console.log(err)
+            })
+    }
     return (
         <ScrollView>
             <View style={styles.container}>
@@ -96,11 +129,14 @@ const Profile = ({ user }) => {
                         </View>
                     </View>
                     <View style={{ width: '100%', alignItems: 'center', marginVertical: 20 }}>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={() => updatePhoneNumber()} disabled={loading}>
                             <View style={[{ backgroundColor: user.color }, styles.switchButton]}>
-                                <Text style={{ color: 'white', fontSize: 18 }}>
-                                    Save
+                                {loading ? <ActivityIndicator size="small" color="white" /> : (
+                                    <Text style={{ color: 'white', fontSize: 18 }}>
+                                        Save
                                     </Text>
+                                )}
+
 
 
 

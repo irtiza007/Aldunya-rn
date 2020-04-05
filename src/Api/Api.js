@@ -8,7 +8,8 @@ const routes = {
     GET_BUSY_DAYS: 'getBusyDay',
     GET_ASSIGN_EXERCISE: 'getAllAssignExcercise',
     CLIENT: 'client/mobile',
-    ADD_RATING: 'addRating'
+    ADD_RATING: 'addRating',
+    UPDATE_PROFILE: 'client/updateClient'
 }
 
 
@@ -69,6 +70,14 @@ const postRating = async (body) => {
 }
 
 
+const updateProfile = async (id, body) => {
+    try {
+        const res = await axios.put(`${routes.UPDATE_PROFILE}/${id}`, body)
+        return res;
+    } catch (err) {
+        throw err.response;
+    }
+}
 
 export {
     signIn,
@@ -76,6 +85,7 @@ export {
     getBusyDays,
     getAssignExcercise,
     getClientForFacebook,
-    postRating
+    postRating,
+    updateProfile
 
 }

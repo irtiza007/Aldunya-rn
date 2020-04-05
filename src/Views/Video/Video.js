@@ -119,7 +119,7 @@ const Videos = ({ navigation, route, user }) => {
                                             <View style={[{ backgroundColor: user.color }, styles.switchButton]}>
                                                 {loading ? <ActivityIndicator size="small" color={user.color} /> : (
                                                     <Text style={{ color: 'white', fontSize: 18 }}>
-                                                        Switch
+                                                        Completed
                                                     </Text>
                                                 )}
 
