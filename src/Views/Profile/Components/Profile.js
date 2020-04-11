@@ -26,11 +26,11 @@ const Profile = ({ user }) => {
             "email": user.email,
             "file": user.imageUrl
         }
-        console.log(body);
+
         updateProfile(user.userId, body)
             .then(res => {
                 setLoading(false)
-                console.log(res)
+
                 Alert.alert("Preferred Contact Updated")
             })
             .catch(err => {

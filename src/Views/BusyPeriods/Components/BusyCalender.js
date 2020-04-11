@@ -46,7 +46,7 @@ function BusyCalender({ size = 400, user }) {
             setLoading(true)
             console.log(moment.utc(date).format('YYYY-MM-DD'));
             setLoading(true);
-            addBusyDay({ date: moment.utc(date).format('YYYY-MM-DD'), userId: user.userId })
+            addBusyDay({ date: moment.utc(date, 'MM-DD-YYYY').local().format("YYYY-MM-DD"), userId: user.userId })
                 .then(res => {
                     // setLoading(false);
                     getIntialData()

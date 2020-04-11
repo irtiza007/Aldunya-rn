@@ -6,7 +6,7 @@ const Header = ({ navigation, back = "", exercise = false, hideProfile = false, 
     return (
         <View style={styles.header}>
             {back !== "" ? (
-                <TouchableOpacity onPress={back}>
+                <TouchableOpacity onPress={back} style={{ width: 50, height: 35 }}>
                     <Icon name="ios-arrow-back" size={35} color={user.color} />
                 </TouchableOpacity>
             ) : (

@@ -34,12 +34,7 @@ function Login({ navigation, user, setAuthData }) {
         if (error) {
             Alert.alert('Error fetching data: ' + error.toString());
         } else {
-            // setAuthData({
-            //     username: result.name,
-            //     login: true,
-            //     userUrl: result.picture.data.url
-            // })
-            console.log(result);
+
             setLoading(true)
             getClientForFacebook(
                 {

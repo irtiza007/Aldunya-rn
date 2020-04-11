@@ -80,6 +80,7 @@ class App extends Component {
     );
     onSeeking = currentTime => this.setState({ currentTime });
 
+
     render() {
         return (
             <View style={styles.container}>

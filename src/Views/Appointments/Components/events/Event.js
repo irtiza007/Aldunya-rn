@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component } from 'react';
+import React from 'react';
 import {
   Image,
   StyleSheet,
@@ -32,7 +32,7 @@ function Event(props) {
             </View>
 
             <View style={[{ borderBottomColor: user.color }, styles.textContainer]}>
-              <TouchableOpacity onPress={() => navigation.navigate('Root', { screen: 'Video', params: { value, value }, })}>
+              <TouchableOpacity>
                 <Text style={[{ color: user.color }, styles.title]}>Busy</Text>
               </TouchableOpacity>
               <Text style={[{ color: user.color }, styles.dateSize]}>{moment.utc(value.busyRecord.date).format('YYYY/MM/DD')}</Text>

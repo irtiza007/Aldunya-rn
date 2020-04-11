@@ -13,7 +13,7 @@ import { connect } from 'react-redux'
 
 function Events(props) {
   const { navigation, data, user } = props;
-
+  console.log("hi i am data", data)
   return (
     <View style={styles.container}>
       <ScrollView>

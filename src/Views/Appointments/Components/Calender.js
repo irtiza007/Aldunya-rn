@@ -16,7 +16,7 @@ import Events from './events/Events';
 import { connect } from 'react-redux';
 import { getAssignExcercise } from '../../../Api/Api';
 import Icons from 'react-native-vector-icons/FontAwesome'
-
+import { format } from "date-fns";
 
 
 // Generate fake event data
@@ -63,8 +63,9 @@ function CalendarView({ navigation, user }) {
 
     const onSelectDate = (date) => {
         // Alert.alert(date.toString())
-        getExcercise(moment.utc(date).format('YYYY-MM-DD'))
-        setEvents(filterEvents(date))
+        // Alert.alert(moment.utc(date, 'MM-DD-YYYY').local().format("YYYY-MM-DD"))
+        getExcercise(moment.utc(date, 'MM-DD-YYYY').local().format("YYYY-MM-DD"))
+        // setEvents(filterEvents(date))
     };
     return (
         <View style={styles.container}>

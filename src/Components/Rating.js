@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { View, Text, Image, SafeAreaView, StyleSheet, TouchableOpacity } from 'react-native'
 
 
-const Rating = ({ setShowRatings }) => {
+const Rating = ({ setShowRatings, color }) => {
 
     const [status, setStatus] = useState(1);
 
@@ -18,7 +18,7 @@ const Rating = ({ setShowRatings }) => {
             <View style={styles.checkBoxesContainer}>
 
                 <View style={styles.checkBoxes}>
-                    <Text style={styles.rateText}>
+                    <Text style={[{ color: color }, styles.rateText]}>
 
                         Rate Difficulty
                     </Text>
@@ -30,7 +30,7 @@ const Rating = ({ setShowRatings }) => {
                                 width: 30,
                                 borderWidth: StyleSheet.hairlineWidth,
                                 borderRadius: 15,
-                                backgroundColor: status <= 5 ? '#004368' : '#ffff'
+                                backgroundColor: status <= 5 ? color : '#ffff'
                             }}>
                             </View>
                         </TouchableOpacity>
@@ -41,7 +41,7 @@ const Rating = ({ setShowRatings }) => {
                                 width: 30,
                                 borderWidth: StyleSheet.hairlineWidth,
                                 borderRadius: 15,
-                                backgroundColor: status >= 2 && status <= 5 ? '#004368' : '#ffff'
+                                backgroundColor: status >= 2 && status <= 5 ? color : '#ffff'
                             }}>
                             </View>
                         </TouchableOpacity>
@@ -52,7 +52,7 @@ const Rating = ({ setShowRatings }) => {
                                 width: 30,
                                 borderWidth: StyleSheet.hairlineWidth,
                                 borderRadius: 15,
-                                backgroundColor: status >= 3 && status <= 5 ? '#004368' : '#ffff'
+                                backgroundColor: status >= 3 && status <= 5 ? color : '#ffff'
                             }}>
                             </View>
                         </TouchableOpacity>
@@ -63,7 +63,7 @@ const Rating = ({ setShowRatings }) => {
                                 width: 30,
                                 borderWidth: StyleSheet.hairlineWidth,
                                 borderRadius: 15,
-                                backgroundColor: status >= 4 && status <= 5 ? '#004368' : '#ffff'
+                                backgroundColor: status >= 4 && status <= 5 ? color : '#ffff'
                             }}>
                             </View>
                         </TouchableOpacity>
@@ -74,7 +74,7 @@ const Rating = ({ setShowRatings }) => {
                                 width: 30,
                                 borderWidth: StyleSheet.hairlineWidth,
                                 borderRadius: 15,
-                                backgroundColor: status === 5 ? '#004368' : '#ffff'
+                                backgroundColor: status === 5 ? color : '#ffff'
                             }}>
                             </View>
                         </TouchableOpacity>
@@ -83,7 +83,7 @@ const Rating = ({ setShowRatings }) => {
             </View>
             <View style={{ flex: 0.5, justifyContent: 'center', alignItems: 'center' }}>
                 <TouchableOpacity onPress={() => setShowRatings(status)}>
-                    <View style={styles.switchButton}>
+                    <View style={[{ backgroundColor: color }, styles.switchButton]}>
                         <Text style={{ color: 'white', fontSize: 18 }}>
                             Submit
                                     </Text>
@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
         padding: 10,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#004368',
+
         borderRadius: 30,
 
     }
