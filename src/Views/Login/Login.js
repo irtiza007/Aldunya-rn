@@ -109,7 +109,7 @@ function Login({ navigation, user, setAuthData }) {
         }
         else {
             setLoading(true);
-            signIn({ "passcode": "Xj3oJ94oB" })
+            signIn({ "passcode": passcode })
                 .then(res => {
                     console.log(res.data)
                     if (res.data == "Client doesnot exist") {
