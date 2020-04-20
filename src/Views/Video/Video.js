@@ -27,8 +27,8 @@ const switchVideos = [{
     , endDate: "2021-04-04T00:00:00.000Z"
     , exercise: "Nerve Glide - Sciatic"
     , file: "https://al-dunia.s3.us-east-2.amazonaws.com/al-dunia/uploads/image/1584888919388-Nerve-Glide-Sciatic.mp4"
-    , reps: "456"
-    , sets: "355"
+    , reps: "8"
+    , sets: "10"
     , startDate: "2020-04-04T00:00:00.000Z"
     , type: "exercise"
     , userId: "5e7dc05a930e040017190c95"
@@ -53,7 +53,7 @@ const switchVideos = [{
     , endDate: "2020-04-29T00:00:00.000Z"
     , exercise: "Patella Mobs"
     , file: "https://al-dunia.s3.us-east-2.amazonaws.com/al-dunia/uploads/image/1585026358994-Patella-Mobs.mp4"
-    , reps: "40"
+    , reps: "10"
     , sets: "10"
     , startDate: "2020-04-11T00:00:00.000Z"
     , type: "exercise"
@@ -72,7 +72,7 @@ const Videos = ({ navigation, route, user }) => {
     const { value } = route.params;
     const [excerciseData, setExcerciseData] = useState(value);
     const [key, setKey] = useState(0);
-
+    console.log(value);
     useEffect(() => {
         setLoading(true)
         if (key !== 0 && key !== 4) {

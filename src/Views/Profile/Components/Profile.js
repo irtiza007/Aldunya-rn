@@ -112,7 +112,7 @@ const Profile = ({ user }) => {
                         </View>
                         <View style={styles.item2}>
                             <Text style={styles.rowText2}>
-                                {user.height}
+                                {user.height} CM
                             </Text>
                         </View>
                     </View>
@@ -124,7 +124,7 @@ const Profile = ({ user }) => {
                         </View>
                         <View style={styles.item2}>
                             <Text style={styles.rowText2}>
-                                {user.weight} lbs
+                                {user.weight} KG
                      </Text>
                         </View>
                     </View>

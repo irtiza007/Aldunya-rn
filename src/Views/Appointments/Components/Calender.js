@@ -84,7 +84,7 @@ function CalendarView({ navigation, user }) {
                             <View style={{ flex: 0.8, justifyContent: 'center', alignItems: 'center' }}>
                                 <Icons name="inbox" color={user.color} size={40} />
                                 <Text style={{ color: user.color, fontSize: 20 }}>
-                                    Opps..! No Excercises Found
+                                    No Excercises today
                         </Text>
                             </View>
                         ) : (

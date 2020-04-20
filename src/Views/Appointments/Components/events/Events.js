@@ -13,7 +13,6 @@ import { connect } from 'react-redux'
 
 function Events(props) {
   const { navigation, data, user } = props;
-  console.log("hi i am data", data)
   return (
     <View style={styles.container}>
       <ScrollView>
@@ -42,8 +41,8 @@ function Events(props) {
               <View style={{ flex: 0.8, justifyContent: 'center', alignItems: 'center' }}>
                 <Icons name="inbox" color={user.color} size={40} />
                 <Text style={{ color: user.color, fontSize: 20 }}>
-                  Opps..! No Excercises Found
- </Text>
+                  No Excercises today
+               </Text>
               </View>
             ) : (<>
               {data.exercises.map((value, index) =>
