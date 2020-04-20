@@ -208,15 +208,15 @@ const Videos = ({ navigation, route, user }) => {
                                             {key !== 4 && (<TouchableOpacity onPress={() => switchExcercise()}>
                                                 <View style={[{ backgroundColor: user.color, marginBottom: 5 }, styles.switchButton]}>
                                                     {loading ? <ActivityIndicator size="small" color={user.color} /> : (
-                                                        <Text style={{ color: 'white', fontSize: 18 }}>
-                                                            Switch
+                                                        <Text style={{ color: 'white', fontSize: 15 }}>
+                                                            Alternative Exercise
                                                         </Text>
                                                     )}
 
 
-                                                    <Image source={require('../../Assets/Switch-Icon.png')}
+                                                    {/* <Image source={require('../../Assets/Switch-Icon.png')}
                                                         style={{ width: 20, height: 20, marginLeft: 5, marginTop: 5 }}
-                                                    />
+                                                    /> */}
 
                                                 </View>
                                             </TouchableOpacity>
